@@ -1,7 +1,7 @@
 package com.mygdx.game.UI;
 
 public interface InventorySlotObserver {
-    public static enum SlotEvent{
+    enum SlotEvent{
         ADDED_ITEM,
         REMOVED_ITEM
     }

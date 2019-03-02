@@ -9,7 +9,7 @@ import com.mygdx.game.audio.AudioSubject;
 public class GameScreen implements Screen, AudioSubject {
     private Array<AudioObserver> _observers;
 
-    public GameScreen(){
+    public GameScreen() {
         _observers = new Array<AudioObserver>();
         this.addObserver(AudioManager.getInstance());
     }
@@ -31,7 +31,7 @@ public class GameScreen implements Screen, AudioSubject {
 
     @Override
     public void notify(AudioObserver.AudioCommand command, AudioObserver.AudioTypeEvent event) {
-        for(AudioObserver observer: _observers){
+        for (AudioObserver observer : _observers) {
             observer.onNotify(command, event);
         }
     }

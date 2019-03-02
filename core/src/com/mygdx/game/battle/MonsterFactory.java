@@ -9,7 +9,7 @@ import com.mygdx.game.EntityConfig;
 import java.util.Hashtable;
 
 public class MonsterFactory {
-    public static enum MonsterEntityType{
+    public enum MonsterEntityType{
         MONSTER001,MONSTER002,MONSTER003,MONSTER004,MONSTER005,
         MONSTER006,MONSTER007,MONSTER008,MONSTER009,MONSTER010,
         MONSTER011,MONSTER012,MONSTER013,MONSTER014,MONSTER015,

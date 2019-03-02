@@ -4,7 +4,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 
 public class QuestTask {
 
-    public static enum QuestType{
+    public static enum QuestType {
         FETCH,
         KILL,
         DELIVERY,
@@ -14,7 +14,7 @@ public class QuestTask {
         DISCOVER
     }
 
-    public static enum QuestTaskPropertyType{
+    public static enum QuestTaskPropertyType {
         IS_TASK_COMPLETE,
         TARGET_TYPE,
         TARGET_NUM,
@@ -27,7 +27,7 @@ public class QuestTask {
     private String taskPhrase;
     private QuestType questType;
 
-    public QuestTask(){
+    public QuestTask() {
         taskProperties = new ObjectMap<String, Object>();
     }
 
@@ -35,7 +35,7 @@ public class QuestTask {
         return id;
     }
 
-    public void setId(String id){
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -63,8 +63,8 @@ public class QuestTask {
         this.taskProperties = taskProperties;
     }
 
-    public boolean isTaskComplete(){
-        if( !taskProperties.containsKey(QuestTaskPropertyType.IS_TASK_COMPLETE.toString()) ){
+    public boolean isTaskComplete() {
+        if (!taskProperties.containsKey(QuestTaskPropertyType.IS_TASK_COMPLETE.toString())) {
             setPropertyValue(QuestTaskPropertyType.IS_TASK_COMPLETE.toString(), "false");
             return false;
         }
@@ -72,28 +72,27 @@ public class QuestTask {
         return Boolean.parseBoolean(val);
     }
 
-    public void setTaskComplete(){
+    public void setTaskComplete() {
         setPropertyValue(QuestTaskPropertyType.IS_TASK_COMPLETE.toString(), "true");
     }
 
-    public void resetAllProperties(){
+    public void resetAllProperties() {
         taskProperties.put(QuestTaskPropertyType.IS_TASK_COMPLETE.toString(), "false");
     }
 
-    public void setPropertyValue(String key, String value){
+    public void setPropertyValue(String key, String value) {
         taskProperties.put(key, value);
     }
 
-    public String getPropertyValue(String key){
+    public String getPropertyValue(String key) {
         Object propertyVal = taskProperties.get(key);
-        if( propertyVal == null ) return new String();
+        if (propertyVal == null) return new String();
         return propertyVal.toString();
     }
 
-    public String toString(){
+    public String toString() {
         return taskPhrase;
     }
-
 
 
 }

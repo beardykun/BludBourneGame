@@ -8,7 +8,7 @@ public class ParticleEffectFactory {
 
     private static String SFX_ROOT_DIR = "sfx";
 
-    public static enum ParticleEffectType{
+    public enum ParticleEffectType {
         CANDLE_FIRE("sfx/candle.p"),
         LANTERN_FIRE("sfx/candle.p"),
         LAVA_SMOKE("sfx/smoke.p"),
@@ -17,18 +17,18 @@ public class ParticleEffectFactory {
 
         private String _fullFilePath;
 
-        ParticleEffectType(String fullFilePath){
+        ParticleEffectType(String fullFilePath) {
             this._fullFilePath = fullFilePath;
         }
 
-        public String getValue(){
+        public String getValue() {
             return _fullFilePath;
         }
     }
 
     private static ParticleEffectFactory _instance = null;
 
-    private ParticleEffectFactory(){
+    private ParticleEffectFactory() {
     }
 
     public static ParticleEffectFactory getInstance() {
@@ -39,11 +39,11 @@ public class ParticleEffectFactory {
         return _instance;
     }
 
-    public static ParticleEffect getParticleEffect(ParticleEffectType particleEffectType, float positionX, float positionY){
+    public static ParticleEffect getParticleEffect(ParticleEffectType particleEffectType, float positionX, float positionY) {
         ParticleEffect effect = new ParticleEffect();
         effect.load(Gdx.files.internal(particleEffectType.getValue()), Gdx.files.internal(SFX_ROOT_DIR));
         effect.setPosition(positionX, positionY);
-        switch(particleEffectType){
+        switch (particleEffectType) {
             case CANDLE_FIRE:
                 effect.scaleEffect(.04f);
                 break;
@@ -63,7 +63,7 @@ public class ParticleEffectFactory {
         return effect;
     }
 
-    public static ParticleEffect getParticleEffect(ParticleEffectType particleEffectType, Vector2 position){
+    public static ParticleEffect getParticleEffect(ParticleEffectType particleEffectType, Vector2 position) {
         return getParticleEffect(particleEffectType, position.x, position.y);
     }
 

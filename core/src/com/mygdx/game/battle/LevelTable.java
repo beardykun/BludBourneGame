@@ -45,7 +45,7 @@ public class LevelTable {
         this.mpMax = mpMax;
     }
 
-    static public Array<LevelTable> getLevelTables(String configFilePath){
+    static public Array<LevelTable> getLevelTables(String configFilePath) {
         Json json = new Json();
         Array<LevelTable> levelTable = new Array<LevelTable>();
 

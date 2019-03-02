@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
+
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -27,7 +28,7 @@ public class MonsterZone {
         this.monsters = monsters;
     }
 
-    static public Hashtable<String, Array<MonsterFactory.MonsterEntityType>> getMonsterZones(String configFilePath){
+    static public Hashtable<String, Array<MonsterFactory.MonsterEntityType>> getMonsterZones(String configFilePath) {
         Json json = new Json();
         Hashtable<String, Array<MonsterFactory.MonsterEntityType>> monsterZones = new Hashtable<String, Array<MonsterFactory.MonsterEntityType>>();
 

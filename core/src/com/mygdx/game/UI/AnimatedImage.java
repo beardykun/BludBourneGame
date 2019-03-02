@@ -18,19 +18,19 @@ public class AnimatedImage extends Image {
     protected Entity _entity;
     private Entity.AnimationType _currentAnimationType = Entity.AnimationType.IDLE;
 
-    public AnimatedImage(){
+    public AnimatedImage() {
         super();
     }
 
-    public void setEntity(Entity entity){
+    public void setEntity(Entity entity) {
         this._entity = entity;
         //set default
         setCurrentAnimation(Entity.AnimationType.IDLE);
     }
 
-    public void setCurrentAnimation(Entity.AnimationType animationType){
+    public void setCurrentAnimation(Entity.AnimationType animationType) {
         Animation animation = _entity.getAnimation(animationType);
-        if( animation == null ){
+        if (animation == null) {
             Gdx.app.debug(TAG, "Animation type " + animationType.toString() + " does not exist!");
             return;
         }
@@ -43,20 +43,18 @@ public class AnimatedImage extends Image {
     }
 
     @Override
-    public void act(float delta){
+    public void act(float delta) {
         Drawable drawable = this.getDrawable();
-        if( drawable == null ) {
+        if (drawable == null) {
             //Gdx.app.debug(TAG, "Drawable is NULL!");
             return;
         }
-        _frameTime = (_frameTime + delta)%5;
+        _frameTime = (_frameTime + delta) % 5;
         TextureRegion region = (TextureRegion) _entity.getAnimation(_currentAnimationType).getKeyFrame(_frameTime, true);
         //Gdx.app.debug(TAG, "Keyframe number is " + _animation.getKeyFrameIndex(_frameTime));
         ((TextureRegionDrawable) drawable).setRegion(region);
         super.act(delta);
     }
-
-
 
 
 }

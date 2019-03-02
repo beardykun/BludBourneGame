@@ -22,7 +22,7 @@ public class BludBourne extends Game {
 	private static CutSceneScreen _cutSceneScreen;
 	private static CreditScreen _creditScreen;
 
-	public static enum ScreenType{
+	public enum ScreenType{
 		MainMenu,
 		MainGame,
 		LoadGame,

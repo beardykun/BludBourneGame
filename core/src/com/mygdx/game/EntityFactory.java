@@ -12,13 +12,13 @@ public class EntityFactory {
     private static EntityFactory _instance = null;
     private Hashtable<String, EntityConfig> _entities;
 
-    public static enum EntityType{
+    public enum EntityType{
         PLAYER,
         PLAYER_DEMO,
         NPC
     }
 
-    public static enum EntityName{
+    public enum EntityName{
         PLAYER_PUPPET,
         TOWN_GUARD_WALKING,
         TOWN_BLACKSMITH,
@@ -67,7 +67,7 @@ public class EntityFactory {
     }
 
     public static Entity getEntity(EntityType entityType){
-        Entity entity = null;
+        Entity entity;
         switch(entityType){
             case PLAYER:
                 entity = new Entity(new PlayerInputComponent(), new PlayerPhysicsComponent(), new PlayerGraphicsComponent());

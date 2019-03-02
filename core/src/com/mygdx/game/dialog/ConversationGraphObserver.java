@@ -1,7 +1,7 @@
 package com.mygdx.game.dialog;
 
 public interface ConversationGraphObserver {
-    public static enum ConversationCommandEvent {
+    enum ConversationCommandEvent {
         LOAD_STORE_INVENTORY,
         EXIT_CONVERSATION,
         ACCEPT_QUEST,

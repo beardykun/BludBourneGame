@@ -61,25 +61,25 @@ public class ConversationUI extends Window {
         this.defaults().expand().fill();
         this.add(_dialogText).pad(10, 10, 10, 10);
         this.row();
-        this.add(scrollPane).pad(10,10,10,10);
+        this.add(scrollPane).pad(10, 10, 10, 10);
 
         //this.debug();
         this.pack();
 
         //Listeners
         _listItems.addListener(new ClickListener() {
-            @Override
-            public void clicked (InputEvent event, float x, float y) {
-                ConversationChoice choice = (ConversationChoice)_listItems.getSelected();
-                if( choice == null ) return;
-                _graph.notify(_graph, choice.getConversationCommandEvent());
-                populateConversationDialog(choice.getDestinationId());
-            }
+                                   @Override
+                                   public void clicked(InputEvent event, float x, float y) {
+                                       ConversationChoice choice = (ConversationChoice) _listItems.getSelected();
+                                       if (choice == null) return;
+                                       _graph.notify(_graph, choice.getConversationCommandEvent());
+                                       populateConversationDialog(choice.getDestinationId());
+                                   }
                                }
         );
     }
 
-    public TextButton getCloseButton(){
+    public TextButton getCloseButton() {
         return _closeButton;
     }
 
@@ -87,13 +87,13 @@ public class ConversationUI extends Window {
         return _currentEntityID;
     }
 
-    public void loadConversation(EntityConfig entityConfig){
+    public void loadConversation(EntityConfig entityConfig) {
         String fullFilenamePath = entityConfig.getConversationConfigPath();
         Gdx.graphics.setTitle("");
 
         clearDialog();
 
-        if( fullFilenamePath.isEmpty() || !Gdx.files.internal(fullFilenamePath).exists() ){
+        if (fullFilenamePath.isEmpty() || !Gdx.files.internal(fullFilenamePath).exists()) {
             Gdx.app.debug(TAG, "Conversation file does not exist!");
             return;
         }
@@ -105,30 +105,30 @@ public class ConversationUI extends Window {
         setConversationGraph(graph);
     }
 
-    public void setConversationGraph(ConversationGraph graph){
-        if( _graph != null ) _graph.removeAllObservers();
+    public void setConversationGraph(ConversationGraph graph) {
+        if (_graph != null) _graph.removeAllObservers();
         this._graph = graph;
         populateConversationDialog(_graph.getCurrentConversationID());
     }
 
-    public ConversationGraph getCurrentConversationGraph(){
+    public ConversationGraph getCurrentConversationGraph() {
         return this._graph;
     }
 
-    private void populateConversationDialog(String conversationID){
+    private void populateConversationDialog(String conversationID) {
         clearDialog();
 
         Conversation conversation = _graph.getConversationByID(conversationID);
-        if( conversation == null ) return;
+        if (conversation == null) return;
         _graph.setCurrentConversation(conversationID);
         _dialogText.setText(conversation.getDialog());
-        ArrayList<ConversationChoice> choices =  _graph.getCurrentChoices();
-        if( choices == null ) return;
+        ArrayList<ConversationChoice> choices = _graph.getCurrentChoices();
+        if (choices == null) return;
         _listItems.setItems(choices.toArray());
         _listItems.setSelectedIndex(-1);
     }
 
-    private void clearDialog(){
+    private void clearDialog() {
         _dialogText.setText("");
         _listItems.clearItems();
     }

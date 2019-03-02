@@ -11,17 +11,17 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 public class ScreenTransitionActor extends Image {
     private Color _transitionColor = Color.BLACK;
 
-    public ScreenTransitionActor(){
+    public ScreenTransitionActor() {
         init();
     }
 
-    public ScreenTransitionActor(Color color){
+    public ScreenTransitionActor(Color color) {
         this._transitionColor = color;
 
         init();
     }
 
-    private void init(){
+    private void init() {
         toFront();
         setFillParent(true);
 

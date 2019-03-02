@@ -16,7 +16,7 @@ public class AudioManager implements AudioObserver {
     private Hashtable<String, Music> _queuedMusic;
     private Hashtable<String, Sound> _queuedSounds;
 
-    private AudioManager(){
+    private AudioManager() {
         _queuedMusic = new Hashtable<String, Music>();
         _queuedSounds = new Hashtable<String, Sound>();
 
@@ -33,7 +33,7 @@ public class AudioManager implements AudioObserver {
 
     @Override
     public void onNotify(AudioCommand command, AudioTypeEvent event) {
-        switch(command){
+        switch (command) {
             case MUSIC_LOAD:
                 Utility.loadMusicAsset(event.getValue());
                 break;
@@ -45,12 +45,12 @@ public class AudioManager implements AudioObserver {
                 break;
             case MUSIC_STOP:
                 Music music = _queuedMusic.get(event.getValue());
-                if( music != null ){
+                if (music != null) {
                     music.stop();
                 }
                 break;
             case MUSIC_STOP_ALL:
-                for( Music musicStop: _queuedMusic.values() ){
+                for (Music musicStop : _queuedMusic.values()) {
                     musicStop.stop();
                 }
                 break;
@@ -65,7 +65,7 @@ public class AudioManager implements AudioObserver {
                 break;
             case SOUND_STOP:
                 Sound sound = _queuedSounds.get(event.getValue());
-                if( sound != null ){
+                if (sound != null) {
                     sound.stop();
                 }
                 break;
@@ -74,46 +74,46 @@ public class AudioManager implements AudioObserver {
         }
     }
 
-    private Music playMusic(boolean isLooping, String fullFilePath){
+    private Music playMusic(boolean isLooping, String fullFilePath) {
         Music music = _queuedMusic.get(fullFilePath);
-        if( music != null ){
+        if (music != null) {
             music.setLooping(isLooping);
             music.play();
-        }else if(Utility.isAssetLoaded(fullFilePath)){
+        } else if (Utility.isAssetLoaded(fullFilePath)) {
             music = Utility.getMusicAsset(fullFilePath);
             music.setLooping(isLooping);
             music.play();
             _queuedMusic.put(fullFilePath, music);
-        }else{
+        } else {
             Gdx.app.debug(TAG, "Music not loaded");
             return null;
         }
         return music;
     }
 
-    private Sound playSound(boolean isLooping, String fullFilePath){
+    private Sound playSound(boolean isLooping, String fullFilePath) {
         Sound sound = _queuedSounds.get(fullFilePath);
-        if( sound != null ){
+        if (sound != null) {
             long soundId = sound.play();
             sound.setLooping(soundId, isLooping);
-        }else if( Utility.isAssetLoaded(fullFilePath) ) {
+        } else if (Utility.isAssetLoaded(fullFilePath)) {
             sound = Utility.getSoundAsset(fullFilePath);
             long soundId = sound.play();
             sound.setLooping(soundId, isLooping);
             _queuedSounds.put(fullFilePath, sound);
-        }else{
+        } else {
             Gdx.app.debug(TAG, "Sound not loaded");
             return null;
         }
         return sound;
     }
 
-    public void dispose(){
-        for(Music music: _queuedMusic.values()){
+    public void dispose() {
+        for (Music music : _queuedMusic.values()) {
             music.dispose();
         }
 
-        for(Sound sound: _queuedSounds.values()){
+        for (Sound sound : _queuedSounds.values()) {
             sound.dispose();
         }
     }

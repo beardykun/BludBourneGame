@@ -1,7 +1,5 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
@@ -10,18 +8,18 @@ import com.mygdx.game.profile.ProfileManager;
 import com.mygdx.game.sfx.ParticleEffectFactory;
 
 
-public class TownMap extends Map{
+public class TownMap extends Map {
     private static final String TAG = PlayerPhysicsComponent.class.getSimpleName();
 
     private static String _mapPath = "maps/town.tmx";
     private Json _json;
 
-    TownMap(){
+    TownMap() {
         super(MapFactory.MapType.TOWN, _mapPath);
 
         _json = new Json();
 
-        for( Vector2 position: _npcStartPositions){
+        for (Vector2 position : _npcStartPositions) {
             Entity entity = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.TOWN_GUARD_WALKING);
             entity.sendMessage(Component.MESSAGE.INIT_START_POSITION, _json.toJson(position));
             _mapEntities.add(entity);
@@ -101,12 +99,12 @@ public class TownMap extends Map{
         _mapEntities.add(townfolk15);
 
         Array<Vector2> candleEffectPositions = getParticleEffectSpawnPositions(ParticleEffectFactory.ParticleEffectType.CANDLE_FIRE);
-        for( Vector2 position: candleEffectPositions ){
+        for (Vector2 position : candleEffectPositions) {
             _mapParticleEffects.add(ParticleEffectFactory.getParticleEffect(ParticleEffectFactory.ParticleEffectType.CANDLE_FIRE, position));
         }
 
         Array<Vector2> lanternEffectPositions = getParticleEffectSpawnPositions(ParticleEffectFactory.ParticleEffectType.LANTERN_FIRE);
-        for( Vector2 position: lanternEffectPositions ){
+        for (Vector2 position : lanternEffectPositions) {
             _mapParticleEffects.add(ParticleEffectFactory.getParticleEffect(ParticleEffectFactory.ParticleEffectType.LANTERN_FIRE, position));
         }
     }
@@ -122,17 +120,17 @@ public class TownMap extends Map{
         notify(AudioObserver.AudioCommand.MUSIC_PLAY_LOOP, AudioObserver.AudioTypeEvent.MUSIC_TOWN);
     }
 
-    private void initSpecialEntityPosition(Entity entity){
-        Vector2 position = new Vector2(0,0);
+    private void initSpecialEntityPosition(Entity entity) {
+        Vector2 position = new Vector2(0, 0);
 
-        if( _specialNPCStartPositions.containsKey(entity.getEntityConfig().getEntityID()) ) {
+        if (_specialNPCStartPositions.containsKey(entity.getEntityConfig().getEntityID())) {
             position = _specialNPCStartPositions.get(entity.getEntityConfig().getEntityID());
         }
         entity.sendMessage(Component.MESSAGE.INIT_START_POSITION, _json.toJson(position));
 
         //Overwrite default if special config is found
         EntityConfig entityConfig = ProfileManager.getInstance().getProperty(entity.getEntityConfig().getEntityID(), EntityConfig.class);
-        if( entityConfig != null ){
+        if (entityConfig != null) {
             entity.setEntityConfig(entityConfig);
         }
     }

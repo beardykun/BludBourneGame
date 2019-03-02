@@ -1,8 +1,6 @@
 package com.mygdx.game.tests;
 
 
-
-
 import com.mygdx.game.dialog.Conversation;
 import com.mygdx.game.dialog.ConversationChoice;
 import com.mygdx.game.dialog.ConversationGraph;
@@ -16,7 +14,7 @@ public class ConversationGraphTest {
     static String quit = "q";
     static String _input = "";
 
-    public static void main (String[] arg) {
+    public static void main(String[] arg) {
         _conversations = new Hashtable<String, Conversation>();
 
         Conversation start = new Conversation();
@@ -71,17 +69,17 @@ public class ConversationGraphTest {
         //System.out.println(_graph.displayCurrentConversation());
         //System.out.println(_graph.toJson());
 
-        while( !_input.equalsIgnoreCase(quit) ){
+        while (!_input.equalsIgnoreCase(quit)) {
             Conversation conversation = getNextChoice();
-            if( conversation == null ) continue;
+            if (conversation == null) continue;
             _graph.setCurrentConversation(conversation.getId());
             //System.out.println(_graph.displayCurrentConversation());
         }
     }
 
-    public static Conversation getNextChoice(){
+    public static Conversation getNextChoice() {
         ArrayList<ConversationChoice> choices = _graph.getCurrentChoices();
-        for(ConversationChoice choice: choices){
+        for (ConversationChoice choice : choices) {
             //System.out.println(choice.getDestinationId() + " " + choice.getChoicePhrase());
         }
         _input = System.console().readLine();
@@ -89,7 +87,7 @@ public class ConversationGraphTest {
         Conversation choice = null;
         try {
             choice = _graph.getConversationByID(_input);
-        }catch( NumberFormatException nfe){
+        } catch (NumberFormatException nfe) {
             return null;
         }
         return choice;

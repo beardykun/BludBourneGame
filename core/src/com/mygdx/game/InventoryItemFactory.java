@@ -8,7 +8,6 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.Scaling;
 
 
-
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -17,7 +16,7 @@ public class InventoryItemFactory {
     private Json _json = new Json();
     private final String INVENTORY_ITEM = "scripts/inventory_items.json";
     private static InventoryItemFactory _instance = null;
-    private Hashtable<InventoryItem.ItemTypeID,InventoryItem> _inventoryItemList;
+    private Hashtable<InventoryItem.ItemTypeID, InventoryItem> _inventoryItemList;
 
     public static InventoryItemFactory getInstance() {
         if (_instance == null) {
@@ -27,7 +26,7 @@ public class InventoryItemFactory {
         return _instance;
     }
 
-    private InventoryItemFactory(){
+    private InventoryItemFactory() {
         ArrayList<JsonValue> list = _json.fromJson(ArrayList.class, Gdx.files.internal(INVENTORY_ITEM));
         _inventoryItemList = new Hashtable<InventoryItem.ItemTypeID, InventoryItem>();
 
@@ -37,7 +36,7 @@ public class InventoryItemFactory {
         }
     }
 
-    public InventoryItem getInventoryItem(InventoryItem.ItemTypeID inventoryItemType){
+    public InventoryItem getInventoryItem(InventoryItem.ItemTypeID inventoryItemType) {
         InventoryItem item = new InventoryItem(_inventoryItemList.get(inventoryItemType));
         item.setDrawable(new TextureRegionDrawable(Utility.ITEMS_TEXTUREATLAS.findRegion(item.getItemTypeID().toString())));
         item.setScaling(Scaling.none);

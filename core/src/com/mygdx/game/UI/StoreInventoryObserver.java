@@ -1,7 +1,7 @@
 package com.mygdx.game.UI;
 
 public interface StoreInventoryObserver {
-    public static enum StoreInventoryEvent {
+    enum StoreInventoryEvent {
         PLAYER_GP_TOTAL_UPDATED,
         PLAYER_INVENTORY_UPDATED
     }

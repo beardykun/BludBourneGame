@@ -11,102 +11,102 @@ public class ConversationGraph extends ConversationGraphSubject {
     private Hashtable<String, ArrayList<ConversationChoice>> associatedChoices;
     private String currentConversationID = null;
 
-    public ConversationGraph(){
+    public ConversationGraph() {
 
     }
 
-    public ConversationGraph(Hashtable<String, Conversation> conversations, String rootID){
+    public ConversationGraph(Hashtable<String, Conversation> conversations, String rootID) {
         setConversations(conversations);
         setCurrentConversation(rootID);
     }
 
     public void setConversations(Hashtable<String, Conversation> conversations) {
-        if( conversations.size() < 0 ){
+        if (conversations.size() < 0) {
             throw new IllegalArgumentException("Can't have a negative amount of conversations");
         }
 
         this.conversations = conversations;
         this.associatedChoices = new Hashtable<String, ArrayList<ConversationChoice>>(conversations.size());
 
-        for( Conversation conversation: conversations.values() ){
+        for (Conversation conversation : conversations.values()) {
             associatedChoices.put(conversation.getId(), new ArrayList<ConversationChoice>());
         }
     }
 
-    public ArrayList<ConversationChoice> getCurrentChoices(){
+    public ArrayList<ConversationChoice> getCurrentChoices() {
         return associatedChoices.get(currentConversationID);
     }
 
-    public String getCurrentConversationID(){
+    public String getCurrentConversationID() {
         return this.currentConversationID;
     }
 
-    public void setCurrentConversation(String id){
+    public void setCurrentConversation(String id) {
         Conversation conversation = getConversationByID(id);
-        if( conversation == null ) return;
+        if (conversation == null) return;
         //Can we reach the new conversation from the current one?
 
         //Make sure we check case where the current node is checked against itself
-        if(     currentConversationID == null ||
+        if (currentConversationID == null ||
                 currentConversationID.equalsIgnoreCase(id) ||
-                isReachable(currentConversationID, id) ){
+                isReachable(currentConversationID, id)) {
             currentConversationID = id;
-        }else{
+        } else {
             //System.out.println("New conversation node [" + id +"] is not reachable from current node [" + currentConversationID + "]");
         }
     }
 
-    public boolean isValid(String conversationID){
+    public boolean isValid(String conversationID) {
         Conversation conversation = conversations.get(conversationID);
-        if( conversation == null ) return false;
+        if (conversation == null) return false;
         return true;
     }
 
-    public boolean isReachable(String sourceID, String sinkID){
-        if( !isValid(sourceID) || !isValid(sinkID) ) return false;
-        if( conversations.get(sourceID) == null ) return false;
+    public boolean isReachable(String sourceID, String sinkID) {
+        if (!isValid(sourceID) || !isValid(sinkID)) return false;
+        if (conversations.get(sourceID) == null) return false;
 
         //First get edges/choices from the source
         ArrayList<ConversationChoice> list = associatedChoices.get(sourceID);
-        if( list == null ) return false;
-        for(ConversationChoice choice: list){
-            if(     choice.getSourceId().equalsIgnoreCase(sourceID) &&
-                    choice.getDestinationId().equalsIgnoreCase(sinkID) ){
+        if (list == null) return false;
+        for (ConversationChoice choice : list) {
+            if (choice.getSourceId().equalsIgnoreCase(sourceID) &&
+                    choice.getDestinationId().equalsIgnoreCase(sinkID)) {
                 return true;
             }
         }
         return false;
     }
 
-    public Conversation getConversationByID(String id){
-        if( !isValid(id) ){
+    public Conversation getConversationByID(String id) {
+        if (!isValid(id)) {
             //System.out.println("Id " + id + " is not valid!");
             return null;
         }
         return conversations.get(id);
     }
 
-    public String displayCurrentConversation(){
+    public String displayCurrentConversation() {
         return conversations.get(currentConversationID).getDialog();
     }
 
-    public void addChoice(ConversationChoice conversationChoice){
+    public void addChoice(ConversationChoice conversationChoice) {
 
         ArrayList<ConversationChoice> list = associatedChoices.get(conversationChoice.getSourceId());
-        if( list == null) return;
+        if (list == null) return;
 
         list.add(conversationChoice);
     }
 
-    public String toString(){
+    public String toString() {
         StringBuilder outputString = new StringBuilder();
         int numberTotalChoices = 0;
 
         Set<String> keys = associatedChoices.keySet();
-        for( String id: keys){
+        for (String id : keys) {
             outputString.append(String.format("[%s]: ", id));
 
-            for( ConversationChoice choice: associatedChoices.get(id)){
+            for (ConversationChoice choice : associatedChoices.get(id)) {
                 numberTotalChoices++;
                 outputString.append(String.format("%s ", choice.getDestinationId()));
             }
@@ -121,7 +121,7 @@ public class ConversationGraph extends ConversationGraphSubject {
         return outputString.toString();
     }
 
-    public String toJson(){
+    public String toJson() {
         Json json = new Json();
         return json.prettyPrint(this);
     }

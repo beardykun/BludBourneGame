@@ -19,17 +19,17 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
     private String _previousDiscovery;
     private String _previousEnemySpawn;
 
-    public PlayerPhysicsComponent(){
+    public PlayerPhysicsComponent() {
         _boundingBoxLocation = BoundingBoxLocation.BOTTOM_CENTER;
         initBoundingBox(0.3f, 0.5f);
         _previousDiscovery = "";
         _previousEnemySpawn = "0";
 
-        _mouseSelectCoordinates = new Vector3(0,0,0);
+        _mouseSelectCoordinates = new Vector3(0, 0, 0);
     }
 
     @Override
-    public void dispose(){
+    public void dispose() {
     }
 
     @Override
@@ -37,10 +37,10 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         //Gdx.app.debug(TAG, "Got message " + message);
         String[] string = message.split(Component.MESSAGE_TOKEN);
 
-        if( string.length == 0 ) return;
+        if (string.length == 0) return;
 
         //Specifically for messages with 1 object payload
-        if( string.length == 2 ) {
+        if (string.length == 2) {
             if (string[0].equalsIgnoreCase(MESSAGE.INIT_START_POSITION.toString())) {
                 _currentEntityPosition = _json.fromJson(Vector2.class, string[1]);
                 _nextEntityPosition.set(_currentEntityPosition.x, _currentEntityPosition.y);
@@ -66,27 +66,27 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         updateDiscoverLayerActivation(mapMgr);
         updateEnemySpawnLayerActivation(mapMgr);
 
-        if( _isMouseSelectEnabled ){
+        if (_isMouseSelectEnabled) {
             selectMapEntityCandidate(mapMgr);
             _isMouseSelectEnabled = false;
         }
 
-        if (    !isCollisionWithMapLayer(entity, mapMgr) &&
+        if (!isCollisionWithMapLayer(entity, mapMgr) &&
                 !isCollisionWithMapEntities(entity, mapMgr) &&
-                _state == Entity.State.WALKING){
+                _state == Entity.State.WALKING) {
             setNextPositionToCurrent(entity);
 
             Camera camera = mapMgr.getCamera();
             camera.position.set(_currentEntityPosition.x, _currentEntityPosition.y, 0f);
             camera.update();
-        }else{
+        } else {
             updateBoundingBoxPosition(_currentEntityPosition);
         }
 
         calculateNextPosition(delta);
     }
 
-    private void selectMapEntityCandidate(MapManager mapMgr){
+    private void selectMapEntityCandidate(MapManager mapMgr) {
         _tempEntities.clear();
         _tempEntities.addAll(mapMgr.getCurrentMapEntities());
         _tempEntities.addAll(mapMgr.getCurrentMapQuestEntities());
@@ -98,7 +98,7 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
 
         //Gdx.app.debug(TAG, "Mouse Coordinates " + "(" + _mouseSelectCoordinates.x + "," + _mouseSelectCoordinates.y + ")");
 
-        for( Entity mapEntity : _tempEntities ) {
+        for (Entity mapEntity : _tempEntities) {
             //Don't break, reset all entities
             mapEntity.sendMessage(MESSAGE.ENTITY_DESELECTED);
             Rectangle mapEntityBoundingBox = mapEntity.getCurrentBoundingBox();
@@ -106,9 +106,9 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
             if (mapEntity.getCurrentBoundingBox().contains(_mouseSelectCoordinates.x, _mouseSelectCoordinates.y)) {
                 //Check distance
                 _selectionRay.set(_boundingBox.x, _boundingBox.y, 0.0f, mapEntityBoundingBox.x, mapEntityBoundingBox.y, 0.0f);
-                float distance =  _selectionRay.origin.dst(_selectionRay.direction);
+                float distance = _selectionRay.origin.dst(_selectionRay.direction);
 
-                if( distance <= _selectRayMaximumDistance ){
+                if (distance <= _selectRayMaximumDistance) {
                     //We have a valid entity selection
                     //Picked/Selected
                     Gdx.app.debug(TAG, "Selected Entity! " + mapEntity.getEntityConfig().getEntityID());
@@ -120,31 +120,31 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         _tempEntities.clear();
     }
 
-    private boolean updateDiscoverLayerActivation(MapManager mapMgr){
-        MapLayer mapDiscoverLayer =  mapMgr.getQuestDiscoverLayer();
+    private boolean updateDiscoverLayerActivation(MapManager mapMgr) {
+        MapLayer mapDiscoverLayer = mapMgr.getQuestDiscoverLayer();
 
-        if( mapDiscoverLayer == null ){
+        if (mapDiscoverLayer == null) {
             return false;
         }
 
         Rectangle rectangle = null;
 
-        for( MapObject object: mapDiscoverLayer.getObjects()){
-            if(object instanceof RectangleMapObject) {
-                rectangle = ((RectangleMapObject)object).getRectangle();
+        for (MapObject object : mapDiscoverLayer.getObjects()) {
+            if (object instanceof RectangleMapObject) {
+                rectangle = ((RectangleMapObject) object).getRectangle();
 
-                if (_boundingBox.overlaps(rectangle) ){
+                if (_boundingBox.overlaps(rectangle)) {
                     String questID = object.getName();
-                    String questTaskID = (String)object.getProperties().get("taskID");
+                    String questTaskID = (String) object.getProperties().get("taskID");
                     String val = questID + MESSAGE_TOKEN + questTaskID;
 
-                    if( questID == null ) {
+                    if (questID == null) {
                         return false;
                     }
 
-                    if( _previousDiscovery.equalsIgnoreCase(val) ){
+                    if (_previousDiscovery.equalsIgnoreCase(val)) {
                         return true;
-                    }else{
+                    } else {
                         _previousDiscovery = val;
                     }
 
@@ -157,30 +157,30 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         return false;
     }
 
-    private boolean updateEnemySpawnLayerActivation(MapManager mapMgr){
-        MapLayer mapEnemySpawnLayer =  mapMgr.getEnemySpawnLayer();
+    private boolean updateEnemySpawnLayerActivation(MapManager mapMgr) {
+        MapLayer mapEnemySpawnLayer = mapMgr.getEnemySpawnLayer();
 
-        if( mapEnemySpawnLayer == null ){
+        if (mapEnemySpawnLayer == null) {
             return false;
         }
 
-        Rectangle rectangle = null;
+        Rectangle rectangle;
 
-        for( MapObject object: mapEnemySpawnLayer.getObjects()){
-            if(object instanceof RectangleMapObject) {
-                rectangle = ((RectangleMapObject)object).getRectangle();
+        for (MapObject object : mapEnemySpawnLayer.getObjects()) {
+            if (object instanceof RectangleMapObject) {
+                rectangle = ((RectangleMapObject) object).getRectangle();
 
-                if (_boundingBox.overlaps(rectangle) ){
+                if (_boundingBox.overlaps(rectangle)) {
                     String enemySpawnID = object.getName();
 
-                    if( enemySpawnID == null ) {
+                    if (enemySpawnID == null) {
                         return false;
                     }
 
-                    if( _previousEnemySpawn.equalsIgnoreCase(enemySpawnID) ){
+                    if (_previousEnemySpawn.equalsIgnoreCase(enemySpawnID)) {
                         //Gdx.app.debug(TAG, "Enemy Spawn Area already activated " + enemySpawnID);
                         return true;
-                    }else{
+                    } else {
                         Gdx.app.debug(TAG, "Enemy Spawn Area " + enemySpawnID + " Activated with previous Spawn value: " + _previousEnemySpawn);
                         _previousEnemySpawn = enemySpawnID;
                     }
@@ -192,7 +192,7 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         }
 
         //If no collision, reset the value
-        if( !_previousEnemySpawn.equalsIgnoreCase(String.valueOf(0)) ){
+        if (!_previousEnemySpawn.equalsIgnoreCase(String.valueOf(0))) {
             Gdx.app.debug(TAG, "Enemy Spawn Area RESET with previous value " + _previousEnemySpawn);
             _previousEnemySpawn = String.valueOf(0);
             notify(_previousEnemySpawn, ComponentObserver.ComponentEvent.ENEMY_SPAWN_LOCATION_CHANGED);
@@ -201,23 +201,23 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         return false;
     }
 
-    private boolean updatePortalLayerActivation(MapManager mapMgr){
-        MapLayer mapPortalLayer =  mapMgr.getPortalLayer();
+    private boolean updatePortalLayerActivation(MapManager mapMgr) {
+        MapLayer mapPortalLayer = mapMgr.getPortalLayer();
 
-        if( mapPortalLayer == null ){
+        if (mapPortalLayer == null) {
             //Gdx.app.debug(TAG, "Portal Layer doesn't exist!");
             return false;
         }
 
         Rectangle rectangle = null;
 
-        for( MapObject object: mapPortalLayer.getObjects()){
-            if(object instanceof RectangleMapObject) {
-                rectangle = ((RectangleMapObject)object).getRectangle();
+        for (MapObject object : mapPortalLayer.getObjects()) {
+            if (object instanceof RectangleMapObject) {
+                rectangle = ((RectangleMapObject) object).getRectangle();
 
-                if (_boundingBox.overlaps(rectangle) ){
+                if (_boundingBox.overlaps(rectangle)) {
                     String mapName = object.getName();
-                    if( mapName == null ) {
+                    if (mapName == null) {
                         return false;
                     }
 
@@ -236,6 +236,4 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         }
         return false;
     }
-
-
 }

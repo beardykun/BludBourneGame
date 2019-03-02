@@ -24,7 +24,7 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
 
     private Array<InventorySlotObserver> _observers;
 
-    public InventorySlot(){
+    public InventorySlot() {
         _filterItemType = 0; //filter nothing
         _defaultBackground = new Stack();
         _customBackgroundDecal = new Image();
@@ -44,7 +44,7 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
         this.add(_numItemsLabel);
     }
 
-    public InventorySlot(int filterItemType, Image customBackgroundDecal){
+    public InventorySlot(int filterItemType, Image customBackgroundDecal) {
         this();
         _filterItemType = filterItemType;
         _customBackgroundDecal = customBackgroundDecal;
@@ -54,11 +54,11 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
     public void decrementItemCount(boolean sendRemoveNotification) {
         _numItemsVal--;
         _numItemsLabel.setText(String.valueOf(_numItemsVal));
-        if( _defaultBackground.getChildren().size == 1 ){
+        if (_defaultBackground.getChildren().size == 1) {
             _defaultBackground.add(_customBackgroundDecal);
         }
         checkVisibilityOfItemCount();
-        if( sendRemoveNotification ){
+        if (sendRemoveNotification) {
             notify(this, InventorySlotObserver.SlotEvent.REMOVED_ITEM);
         }
 
@@ -67,11 +67,11 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
     public void incrementItemCount(boolean sendAddNotification) {
         _numItemsVal++;
         _numItemsLabel.setText(String.valueOf(_numItemsVal));
-        if( _defaultBackground.getChildren().size > 1 ){
+        if (_defaultBackground.getChildren().size > 1) {
             _defaultBackground.getChildren().pop();
         }
         checkVisibilityOfItemCount();
-        if( sendAddNotification ){
+        if (sendAddNotification) {
             notify(this, InventorySlotObserver.SlotEvent.ADDED_ITEM);
         }
     }
@@ -80,11 +80,11 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
     public void add(Actor actor) {
         super.add(actor);
 
-        if( _numItemsLabel == null ){
+        if (_numItemsLabel == null) {
             return;
         }
 
-        if( !actor.equals(_defaultBackground) && !actor.equals(_numItemsLabel) ) {
+        if (!actor.equals(_defaultBackground) && !actor.equals(_numItemsLabel)) {
             incrementItemCount(true);
         }
     }
@@ -92,24 +92,24 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
     public void remove(Actor actor) {
         super.removeActor(actor);
 
-        if( _numItemsLabel == null ){
+        if (_numItemsLabel == null) {
             return;
         }
 
-        if( !actor.equals(_defaultBackground) && !actor.equals(_numItemsLabel) ) {
+        if (!actor.equals(_defaultBackground) && !actor.equals(_numItemsLabel)) {
             decrementItemCount(true);
         }
     }
 
     public void add(Array<Actor> array) {
-        for( Actor actor : array){
+        for (Actor actor : array) {
             super.add(actor);
 
-            if( _numItemsLabel == null ){
+            if (_numItemsLabel == null) {
                 return;
             }
 
-            if( !actor.equals(_defaultBackground) && !actor.equals(_numItemsLabel) ) {
+            if (!actor.equals(_defaultBackground) && !actor.equals(_numItemsLabel)) {
                 incrementItemCount(true);
             }
         }
@@ -117,10 +117,10 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
 
     public Array<Actor> getAllInventoryItems() {
         Array<Actor> items = new Array<Actor>();
-        if( hasItem() ){
+        if (hasItem()) {
             SnapshotArray<Actor> arrayChildren = this.getChildren();
-            int numInventoryItems =  arrayChildren.size - 2;
-            for(int i = 0; i < numInventoryItems; i++) {
+            int numInventoryItems = arrayChildren.size - 2;
+            for (int i = 0; i < numInventoryItems; i++) {
                 decrementItemCount(true);
                 items.add(arrayChildren.pop());
             }
@@ -128,23 +128,23 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
         return items;
     }
 
-    public void updateAllInventoryItemNames(String name){
-        if( hasItem() ){
+    public void updateAllInventoryItemNames(String name) {
+        if (hasItem()) {
             SnapshotArray<Actor> arrayChildren = this.getChildren();
             //skip first two elements
-            for(int i = arrayChildren.size - 1; i > 1 ; i--) {
+            for (int i = arrayChildren.size - 1; i > 1; i--) {
                 arrayChildren.get(i).setName(name);
             }
         }
     }
 
-    public void removeAllInventoryItemsWithName(String name){
-        if( hasItem() ){
+    public void removeAllInventoryItemsWithName(String name) {
+        if (hasItem()) {
             SnapshotArray<Actor> arrayChildren = this.getChildren();
             //skip first two elements
-            for(int i = arrayChildren.size - 1; i > 1 ; i--) {
+            for (int i = arrayChildren.size - 1; i > 1; i--) {
                 String itemName = arrayChildren.get(i).getName();
-                if( itemName.equalsIgnoreCase(name)){
+                if (itemName.equalsIgnoreCase(name)) {
                     decrementItemCount(true);
                     arrayChildren.removeIndex(i);
                 }
@@ -154,48 +154,48 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
 
 
     public void clearAllInventoryItems(boolean sendRemoveNotifications) {
-        if( hasItem() ){
+        if (hasItem()) {
             SnapshotArray<Actor> arrayChildren = this.getChildren();
-            int numInventoryItems =  getNumItems();
-            for(int i = 0; i < numInventoryItems; i++) {
+            int numInventoryItems = getNumItems();
+            for (int i = 0; i < numInventoryItems; i++) {
                 decrementItemCount(sendRemoveNotifications);
                 arrayChildren.pop();
             }
         }
     }
 
-    private void checkVisibilityOfItemCount(){
-        if( _numItemsVal < 2){
+    private void checkVisibilityOfItemCount() {
+        if (_numItemsVal < 2) {
             _numItemsLabel.setVisible(false);
-        }else{
+        } else {
             _numItemsLabel.setVisible(true);
         }
     }
 
-    public boolean hasItem(){
-        if( hasChildren() ){
+    public boolean hasItem() {
+        if (hasChildren()) {
             SnapshotArray<Actor> items = this.getChildren();
-            if( items.size > 2 ){
+            if (items.size > 2) {
                 return true;
             }
         }
         return false;
     }
 
-    public int getNumItems(){
-        if( hasChildren() ){
+    public int getNumItems() {
+        if (hasChildren()) {
             SnapshotArray<Actor> items = this.getChildren();
             return items.size - 2;
         }
         return 0;
     }
 
-    public int getNumItems(String name){
-        if( hasChildren() ){
+    public int getNumItems(String name) {
+        if (hasChildren()) {
             SnapshotArray<Actor> items = this.getChildren();
             int totalFilteredSize = 0;
-            for( Actor actor: items ){
-                if( actor.getName().equalsIgnoreCase(name)){
+            for (Actor actor : items) {
+                if (actor.getName().equalsIgnoreCase(name)) {
                     totalFilteredSize++;
                 }
             }
@@ -204,28 +204,28 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
         return 0;
     }
 
-    public boolean doesAcceptItemUseType(int itemUseType){
-        if( _filterItemType == 0 ){
+    public boolean doesAcceptItemUseType(int itemUseType) {
+        if (_filterItemType == 0) {
             return true;
-        }else {
+        } else {
             return ((_filterItemType & itemUseType) == itemUseType);
         }
     }
 
-    public InventoryItem getTopInventoryItem(){
+    public InventoryItem getTopInventoryItem() {
         InventoryItem actor = null;
-        if( hasChildren() ){
+        if (hasChildren()) {
             SnapshotArray<Actor> items = this.getChildren();
-            if( items.size > 2 ){
+            if (items.size > 2) {
                 actor = (InventoryItem) items.peek();
             }
         }
         return actor;
     }
 
-    static public void swapSlots(InventorySlot inventorySlotSource, InventorySlot inventorySlotTarget, InventoryItem dragActor){
+    static public void swapSlots(InventorySlot inventorySlotSource, InventorySlot inventorySlotTarget, InventoryItem dragActor) {
         //check if items can accept each other, otherwise, no swap
-        if( !inventorySlotTarget.doesAcceptItemUseType(dragActor.getItemUseType()) ||
+        if (!inventorySlotTarget.doesAcceptItemUseType(dragActor.getItemUseType()) ||
                 !inventorySlotSource.doesAcceptItemUseType(inventorySlotTarget.getTopInventoryItem().getItemUseType())) {
             inventorySlotSource.add(dragActor);
             return;
@@ -250,14 +250,14 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
 
     @Override
     public void removeAllObservers() {
-        for(InventorySlotObserver observer: _observers){
+        for (InventorySlotObserver observer : _observers) {
             _observers.removeValue(observer, true);
         }
     }
 
     @Override
     public void notify(final InventorySlot slot, InventorySlotObserver.SlotEvent event) {
-        for(InventorySlotObserver observer: _observers){
+        for (InventorySlotObserver observer : _observers) {
             observer.onNotify(slot, event);
         }
     }

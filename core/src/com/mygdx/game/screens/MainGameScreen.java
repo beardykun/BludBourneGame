@@ -22,7 +22,6 @@ import com.mygdx.game.UI.PlayerHUD;
 import com.mygdx.game.audio.AudioManager;
 import com.mygdx.game.profile.ProfileManager;
 
-
 public class MainGameScreen extends GameScreen {
     private static final String TAG = MainGameScreen.class.getSimpleName();
 

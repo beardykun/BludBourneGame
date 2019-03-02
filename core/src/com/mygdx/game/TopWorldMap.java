@@ -1,24 +1,23 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.audio.AudioObserver;
 import com.mygdx.game.sfx.ParticleEffectFactory;
 
 
-public class TopWorldMap extends Map{
+public class TopWorldMap extends Map {
     private static String _mapPath = "maps/topworld.tmx";
 
-    TopWorldMap(){
+    TopWorldMap() {
         super(MapFactory.MapType.TOP_WORLD, _mapPath);
 
         Array<Vector2> lanternEffectPositions = getParticleEffectSpawnPositions(ParticleEffectFactory.ParticleEffectType.LANTERN_FIRE);
-        for( Vector2 position: lanternEffectPositions ){
+        for (Vector2 position : lanternEffectPositions) {
             _mapParticleEffects.add(ParticleEffectFactory.getParticleEffect(ParticleEffectFactory.ParticleEffectType.LANTERN_FIRE, position));
         }
         Array<Vector2> lavaSmokeEffectPositions = getParticleEffectSpawnPositions(ParticleEffectFactory.ParticleEffectType.LAVA_SMOKE);
-        for( Vector2 position: lavaSmokeEffectPositions ){
+        for (Vector2 position : lavaSmokeEffectPositions) {
             _mapParticleEffects.add(ParticleEffectFactory.getParticleEffect(ParticleEffectFactory.ParticleEffectType.LAVA_SMOKE, position));
         }
     }

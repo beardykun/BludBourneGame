@@ -45,7 +45,7 @@ public class StatusUI extends Window implements StatusSubject {
     private float _barWidth = 0;
     private float _barHeight = 0;
 
-    public StatusUI(){
+    public StatusUI() {
         super("stats", Utility.STATUSUI_SKIN);
 
         _levelTables = LevelTable.getLevelTables(LEVEL_TABLE_CONFIG);
@@ -82,11 +82,11 @@ public class StatusUI extends Window implements StatusSubject {
         _goldValLabel = new Label(String.valueOf(_goldVal), Utility.STATUSUI_SKIN);
 
         //buttons
-        _inventoryButton= new ImageButton(Utility.STATUSUI_SKIN, "inventory-button");
+        _inventoryButton = new ImageButton(Utility.STATUSUI_SKIN, "inventory-button");
         _inventoryButton.getImageCell().size(32, 32);
 
         _questButton = new ImageButton(Utility.STATUSUI_SKIN, "quest-button");
-        _questButton.getImageCell().size(32,32);
+        _questButton.getImageCell().size(32, 32);
 
         //Align images
         _hpBar.setPosition(3, 6);
@@ -145,38 +145,40 @@ public class StatusUI extends Window implements StatusSubject {
         return _questButton;
     }
 
-    public int getLevelValue(){
+    public int getLevelValue() {
         return _levelVal;
     }
-    public void setLevelValue(int levelValue){
+
+    public void setLevelValue(int levelValue) {
         this._levelVal = levelValue;
         _levelValLabel.setText(String.valueOf(_levelVal));
         notify(_levelVal, StatusObserver.StatusEvent.UPDATED_LEVEL);
     }
 
-    public int getGoldValue(){
+    public int getGoldValue() {
         return _goldVal;
     }
-    public void setGoldValue(int goldValue){
+
+    public void setGoldValue(int goldValue) {
         this._goldVal = goldValue;
         _goldValLabel.setText(String.valueOf(_goldVal));
         notify(_goldVal, StatusObserver.StatusEvent.UPDATED_GP);
     }
 
-    public void addGoldValue(int goldValue){
+    public void addGoldValue(int goldValue) {
         this._goldVal += goldValue;
         _goldValLabel.setText(String.valueOf(_goldVal));
         notify(_goldVal, StatusObserver.StatusEvent.UPDATED_GP);
     }
 
-    public int getXPValue(){
+    public int getXPValue() {
         return _xpVal;
     }
 
-    public void addXPValue(int xpValue){
+    public void addXPValue(int xpValue) {
         this._xpVal += xpValue;
 
-        if( _xpVal > _xpCurrentMax ){
+        if (_xpVal > _xpCurrentMax) {
             updateToNewLevel();
         }
 
@@ -187,10 +189,10 @@ public class StatusUI extends Window implements StatusSubject {
         notify(_xpVal, StatusObserver.StatusEvent.UPDATED_XP);
     }
 
-    public void setXPValue(int xpValue){
+    public void setXPValue(int xpValue) {
         this._xpVal = xpValue;
 
-        if( _xpVal > _xpCurrentMax ){
+        if (_xpVal > _xpCurrentMax) {
             updateToNewLevel();
         }
 
@@ -201,13 +203,13 @@ public class StatusUI extends Window implements StatusSubject {
         notify(_xpVal, StatusObserver.StatusEvent.UPDATED_XP);
     }
 
-    public void setXPValueMax(int maxXPValue){
+    public void setXPValueMax(int maxXPValue) {
         this._xpCurrentMax = maxXPValue;
     }
 
-    public void setStatusForLevel(int level){
-        for( LevelTable table: _levelTables ){
-            if( Integer.parseInt(table.getLevelID()) == level ){
+    public void setStatusForLevel(int level) {
+        for (LevelTable table : _levelTables) {
+            if (Integer.parseInt(table.getLevelID()) == level) {
                 setXPValueMax(table.getXpMax());
                 setXPValue(0);
 
@@ -223,12 +225,12 @@ public class StatusUI extends Window implements StatusSubject {
         }
     }
 
-    public void updateToNewLevel(){
-        for( LevelTable table: _levelTables ){
+    public void updateToNewLevel() {
+        for (LevelTable table : _levelTables) {
             //System.out.println("XPVAL " + _xpVal + " table XPMAX " + table.getXpMax() );
-            if( _xpVal > table.getXpMax() ){
+            if (_xpVal > table.getXpMax()) {
                 continue;
-            }else{
+            } else {
                 setXPValueMax(table.getXpMax());
 
                 setHPValueMax(table.getHpMax());
@@ -244,16 +246,16 @@ public class StatusUI extends Window implements StatusSubject {
         }
     }
 
-    public int getXPValueMax(){
+    public int getXPValueMax() {
         return _xpCurrentMax;
     }
 
     //HP
-    public int getHPValue(){
+    public int getHPValue() {
         return _hpVal;
     }
 
-    public void removeHPValue(int hpValue){
+    public void removeHPValue(int hpValue) {
         _hpVal = MathUtils.clamp(_hpVal - hpValue, 0, _hpCurrentMax);
         _hpValLabel.setText(String.valueOf(_hpVal));
 
@@ -262,7 +264,7 @@ public class StatusUI extends Window implements StatusSubject {
         notify(_hpVal, StatusObserver.StatusEvent.UPDATED_HP);
     }
 
-    public void addHPValue(int hpValue){
+    public void addHPValue(int hpValue) {
         _hpVal = MathUtils.clamp(_hpVal + hpValue, 0, _hpCurrentMax);
         _hpValLabel.setText(String.valueOf(_hpVal));
 
@@ -271,7 +273,7 @@ public class StatusUI extends Window implements StatusSubject {
         notify(_hpVal, StatusObserver.StatusEvent.UPDATED_HP);
     }
 
-    public void setHPValue(int hpValue){
+    public void setHPValue(int hpValue) {
         this._hpVal = hpValue;
         _hpValLabel.setText(String.valueOf(_hpVal));
 
@@ -280,20 +282,20 @@ public class StatusUI extends Window implements StatusSubject {
         notify(_hpVal, StatusObserver.StatusEvent.UPDATED_HP);
     }
 
-    public void setHPValueMax(int maxHPValue){
+    public void setHPValueMax(int maxHPValue) {
         this._hpCurrentMax = maxHPValue;
     }
 
-    public int getHPValueMax(){
+    public int getHPValueMax() {
         return _hpCurrentMax;
     }
 
     //MP
-    public int getMPValue(){
+    public int getMPValue() {
         return _mpVal;
     }
 
-    public void removeMPValue(int mpValue){
+    public void removeMPValue(int mpValue) {
         _mpVal = MathUtils.clamp(_mpVal - mpValue, 0, _mpCurrentMax);
         _mpValLabel.setText(String.valueOf(_mpVal));
 
@@ -302,7 +304,7 @@ public class StatusUI extends Window implements StatusSubject {
         notify(_mpVal, StatusObserver.StatusEvent.UPDATED_MP);
     }
 
-    public void addMPValue(int mpValue){
+    public void addMPValue(int mpValue) {
         _mpVal = MathUtils.clamp(_mpVal + mpValue, 0, _mpCurrentMax);
         _mpValLabel.setText(String.valueOf(_mpVal));
 
@@ -311,7 +313,7 @@ public class StatusUI extends Window implements StatusSubject {
         notify(_mpVal, StatusObserver.StatusEvent.UPDATED_MP);
     }
 
-    public void setMPValue(int mpValue){
+    public void setMPValue(int mpValue) {
         this._mpVal = mpValue;
         _mpValLabel.setText(String.valueOf(_mpVal));
 
@@ -320,19 +322,19 @@ public class StatusUI extends Window implements StatusSubject {
         notify(_mpVal, StatusObserver.StatusEvent.UPDATED_MP);
     }
 
-    public void setMPValueMax(int maxMPValue){
+    public void setMPValueMax(int maxMPValue) {
         this._mpCurrentMax = maxMPValue;
     }
 
-    public int getMPValueMax(){
+    public int getMPValueMax() {
         return _mpCurrentMax;
     }
 
-    public void updateBar(Image bar, int currentVal, int maxVal){
+    public void updateBar(Image bar, int currentVal, int maxVal) {
         int val = MathUtils.clamp(currentVal, 0, maxVal);
         float tempPercent = (float) val / (float) maxVal;
         float percentage = MathUtils.clamp(tempPercent, 0, 100);
-        bar.setSize(_barWidth*percentage, _barHeight);
+        bar.setSize(_barWidth * percentage, _barHeight);
     }
 
     @Override
@@ -347,14 +349,14 @@ public class StatusUI extends Window implements StatusSubject {
 
     @Override
     public void removeAllObservers() {
-        for(StatusObserver observer: _observers){
+        for (StatusObserver observer : _observers) {
             _observers.removeValue(observer, true);
         }
     }
 
     @Override
     public void notify(int value, StatusObserver.StatusEvent event) {
-        for(StatusObserver observer: _observers){
+        for (StatusObserver observer : _observers) {
             observer.onNotify(value, event);
         }
     }

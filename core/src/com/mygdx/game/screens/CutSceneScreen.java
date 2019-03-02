@@ -68,7 +68,7 @@ public class CutSceneScreen extends MainGameScreen {
 
         _messageBoxUI = new Dialog("", Utility.STATUSUI_SKIN, "solidbackground");
         _messageBoxUI.setVisible(false);
-        _messageBoxUI.getContentTable().add(_label).width(_stage.getWidth()/2).pad(10, 10, 10, 0);
+        _messageBoxUI.getContentTable().add(_label).width(_stage.getWidth() / 2).pad(10, 10, 10, 0);
         _messageBoxUI.pack();
         _messageBoxUI.setPosition(_stage.getWidth() / 2 - _messageBoxUI.getWidth() / 2, _stage.getHeight() - _messageBoxUI.getHeight());
 
@@ -84,7 +84,7 @@ public class CutSceneScreen extends MainGameScreen {
         _animDemon = getAnimatedImage(MonsterFactory.MonsterEntityType.MONSTER042);
 
         //Actions
-        _switchScreenAction = new RunnableAction(){
+        _switchScreenAction = new RunnableAction() {
             @Override
             public void run() {
                 _game.setScreen(_game.getScreenType(BludBourne.ScreenType.MainMenu));
@@ -179,7 +179,7 @@ public class CutSceneScreen extends MainGameScreen {
 
         _transitionActor = new ScreenTransitionActor();
 
-         //layout
+        //layout
         _stage.addActor(_animMage);
         _stage.addActor(_animBlackSmith);
         _stage.addActor(_animInnKeeper);
@@ -190,7 +190,7 @@ public class CutSceneScreen extends MainGameScreen {
         _UIStage.addActor(_messageBoxUI);
     }
 
-    private Action getCutsceneAction(){
+    private Action getCutsceneAction() {
         _setupScene01.reset();
         _setupScene02.reset();
         _setupScene03.reset();
@@ -330,40 +330,40 @@ public class CutSceneScreen extends MainGameScreen {
 
     }
 
-    private AnimatedImage getAnimatedImage(EntityFactory.EntityName entityName){
+    private AnimatedImage getAnimatedImage(EntityFactory.EntityName entityName) {
         Entity entity = EntityFactory.getInstance().getEntityByName(entityName);
         return setEntityAnimation(entity);
     }
 
-    private AnimatedImage getAnimatedImage(MonsterFactory.MonsterEntityType entityName){
+    private AnimatedImage getAnimatedImage(MonsterFactory.MonsterEntityType entityName) {
         Entity entity = MonsterFactory.getInstance().getMonster(entityName);
         return setEntityAnimation(entity);
     }
 
-    private AnimatedImage setEntityAnimation(Entity entity){
+    private AnimatedImage setEntityAnimation(Entity entity) {
         final AnimatedImage animEntity = new AnimatedImage();
         animEntity.setEntity(entity);
         animEntity.setSize(animEntity.getWidth() * Map.UNIT_SCALE, animEntity.getHeight() * Map.UNIT_SCALE);
         return animEntity;
     }
 
-    public void followActor(Actor actor){
+    public void followActor(Actor actor) {
         _followingActor = actor;
         _isCameraFixed = false;
     }
 
-    public void setCameraPosition(float x, float y){
+    public void setCameraPosition(float x, float y) {
         _camera.position.set(x, y, 0f);
         _isCameraFixed = true;
     }
 
-    public void showMessage(String message){
+    public void showMessage(String message) {
         _label.setText(message);
         _messageBoxUI.pack();
         _messageBoxUI.setVisible(true);
     }
 
-    public void hideMessage(){
+    public void hideMessage() {
         _messageBoxUI.setVisible(false);
     }
 
@@ -377,14 +377,14 @@ public class CutSceneScreen extends MainGameScreen {
         _mapRenderer.getBatch().enableBlending();
         _mapRenderer.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
-        if( _mapMgr.hasMapChanged() ){
+        if (_mapMgr.hasMapChanged()) {
             _mapRenderer.setMap(_mapMgr.getCurrentTiledMap());
             _mapMgr.setMapChanged(false);
         }
 
         _mapRenderer.render();
 
-        if( !_isCameraFixed ){
+        if (!_isCameraFixed) {
             _camera.position.set(_followingActor.getX(), _followingActor.getY(), 0f);
         }
         _camera.update();
@@ -403,7 +403,7 @@ public class CutSceneScreen extends MainGameScreen {
         notify(AudioObserver.AudioCommand.MUSIC_STOP_ALL, AudioObserver.AudioTypeEvent.NONE);
         notify(AudioObserver.AudioCommand.MUSIC_PLAY_LOOP, AudioObserver.AudioTypeEvent.MUSIC_INTRO_CUTSCENE);
         ProfileManager.getInstance().removeAllObservers();
-        if( _mapRenderer == null ){
+        if (_mapRenderer == null) {
             _mapRenderer = new OrthogonalTiledMapRenderer(_mapMgr.getCurrentTiledMap(), Map.UNIT_SCALE);
         }
     }

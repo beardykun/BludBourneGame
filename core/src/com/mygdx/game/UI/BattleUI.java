@@ -1,6 +1,7 @@
 package com.mygdx.game.UI;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.math.Vector2;
@@ -31,18 +32,18 @@ public class BattleUI extends Window implements BattleObserver {
     private final int _enemyWidth = 96;
     private final int _enemyHeight = 96;
 
-    private BattleState _battleState = null;
-    private TextButton _attackButton = null;
-    private TextButton _runButton = null;
-    private Label _damageValLabel = null;
+    private BattleState _battleState;
+    private TextButton _attackButton;
+    private TextButton _runButton;
+    private Label _damageValLabel;
 
-    private float _battleTimer = 0;
+    private float _battleTimer;
     private final float _checkTimer = 1;
 
     private ShakeCamera _battleShakeCam = null;
     private Array<ParticleEffect> _effects;
 
-    private float _origDamageValLabelY = 0;
+    private float _origDamageValLabelY;
     private Vector2 _currentImagePosition;
 
     public BattleUI(){

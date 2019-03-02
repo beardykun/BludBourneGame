@@ -4,13 +4,14 @@ public class QuestTaskDependency {
     private String sourceId;
     private String destinationId;
 
-    public QuestTaskDependency(){}
+    public QuestTaskDependency() {
+    }
 
     public String getSourceId() {
         return sourceId;
     }
 
-    public void setSourceId(String sourceId){
+    public void setSourceId(String sourceId) {
         this.sourceId = sourceId;
     }
 
@@ -18,7 +19,7 @@ public class QuestTaskDependency {
         return destinationId;
     }
 
-    public void setDestinationId(String destinationId){
+    public void setDestinationId(String destinationId) {
         this.destinationId = destinationId;
     }
 }

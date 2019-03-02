@@ -18,7 +18,7 @@ public class EntityConfig {
     private String itemTypeID;
     private ObjectMap<String, String> entityProperties;
 
-    public static enum EntityProperties{
+    public static enum EntityProperties {
         ENTITY_HEALTH_POINTS,
         ENTITY_ATTACK_POINTS,
         ENTITY_DEFENSE_POINTS,
@@ -28,13 +28,13 @@ public class EntityConfig {
         NONE
     }
 
-    EntityConfig(){
+    EntityConfig() {
         animationConfig = new Array<AnimationConfig>();
         inventory = new Array<InventoryItem.ItemTypeID>();
         entityProperties = new ObjectMap<String, String>();
     }
 
-    EntityConfig(EntityConfig config){
+    EntityConfig(EntityConfig config) {
         state = config.getState();
         direction = config.getDirection();
         entityID = config.getEntityID();
@@ -61,13 +61,13 @@ public class EntityConfig {
         this.entityProperties = entityProperties;
     }
 
-    public void setPropertyValue(String key, String value){
+    public void setPropertyValue(String key, String value) {
         entityProperties.put(key, value);
     }
 
-    public String getPropertyValue(String key){
+    public String getPropertyValue(String key) {
         Object propertyVal = entityProperties.get(key);
-        if( propertyVal == null ) return new String();
+        if (propertyVal == null) return new String();
         return propertyVal.toString();
     }
 
@@ -143,13 +143,13 @@ public class EntityConfig {
         this.inventory = inventory;
     }
 
-    static public class AnimationConfig{
+    static public class AnimationConfig {
         private float frameDuration = 1.0f;
         private Entity.AnimationType animationType;
         private Array<String> texturePaths;
         private Array<GridPoint2> gridPoints;
 
-        public AnimationConfig(){
+        public AnimationConfig() {
             animationType = Entity.AnimationType.IDLE;
             texturePaths = new Array<String>();
             gridPoints = new Array<GridPoint2>();

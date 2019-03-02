@@ -1,7 +1,7 @@
 package com.mygdx.game.UI;
 
 public interface InventoryObserver {
-    public static enum InventoryEvent {
+    enum InventoryEvent {
         UPDATED_AP,
         UPDATED_DP,
         ITEM_CONSUMED,

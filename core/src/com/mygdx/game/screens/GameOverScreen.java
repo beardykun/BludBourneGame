@@ -22,7 +22,7 @@ public class GameOverScreen extends GameScreen {
     private static final String DEATH_MESSAGE = "You have fought bravely, but alas, you have fallen during your epic struggle.";
     private static final String GAMEOVER = "Game Over";
 
-    public GameOverScreen(BludBourne game){
+    public GameOverScreen(BludBourne game) {
         _game = game;
 
         //create
@@ -39,12 +39,12 @@ public class GameOverScreen extends GameScreen {
 
         //Layout
         table.setFillParent(true);
-        table.add(messageLabel).pad(50, 50,50,50).expandX().fillX().row();
+        table.add(messageLabel).pad(50, 50, 50, 50).expandX().fillX().row();
         table.add(gameOverLabel);
         table.row();
-        table.add(continueButton).pad(50,50,10,50);
+        table.add(continueButton).pad(50, 50, 10, 50);
         table.row();
-        table.add(mainMenuButton).pad(10,50,50,50);
+        table.add(mainMenuButton).pad(10, 50, 50, 50);
 
         _stage.addActor(table);
 
@@ -56,11 +56,11 @@ public class GameOverScreen extends GameScreen {
                                        }
 
                                        @Override
-                                       public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                                       public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                            _game.setScreen(_game.getScreenType(BludBourne.ScreenType.LoadGame));
                                        }
 
-                               }
+                                   }
         );
 
         mainMenuButton.addListener(new ClickListener() {
@@ -71,7 +71,7 @@ public class GameOverScreen extends GameScreen {
                                        }
 
                                        @Override
-                                       public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                                       public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                            _game.setScreen(_game.getScreenType(BludBourne.ScreenType.MainMenu));
                                        }
                                    }
@@ -82,7 +82,7 @@ public class GameOverScreen extends GameScreen {
 
     @Override
     public void render(float delta) {
-        if( delta == 0){
+        if (delta == 0) {
             return;
         }
 

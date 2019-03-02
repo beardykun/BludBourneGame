@@ -20,125 +20,125 @@ import com.mygdx.game.profile.ProfileManager;
 
 public class LoadGameScreen extends GameScreen {
     private Stage _stage;
-	private BludBourne _game;
-	private List _listItems;
-	
-	public LoadGameScreen(BludBourne game){
-		_game = game;
+    private BludBourne _game;
+    private List _listItems;
 
-		//create
-		_stage = new Stage();
-		TextButton loadButton = new TextButton("Load", Utility.STATUSUI_SKIN);
-		TextButton backButton = new TextButton("Back",Utility.STATUSUI_SKIN);
+    public LoadGameScreen(BludBourne game) {
+        _game = game;
 
-		ProfileManager.getInstance().storeAllProfiles();
-		_listItems = new List(Utility.STATUSUI_SKIN, "inventory");
-		Array<String> list = ProfileManager.getInstance().getProfileList();
-		_listItems.setItems(list);
-		ScrollPane scrollPane = new ScrollPane(_listItems);
+        //create
+        _stage = new Stage();
+        TextButton loadButton = new TextButton("Load", Utility.STATUSUI_SKIN);
+        TextButton backButton = new TextButton("Back", Utility.STATUSUI_SKIN);
 
-		scrollPane.setOverscroll(false, false);
-		scrollPane.setFadeScrollBars(false);
-		scrollPane.setScrollingDisabled(true, false);
-		scrollPane.setScrollbarsOnTop(true);
+        ProfileManager.getInstance().storeAllProfiles();
+        _listItems = new List(Utility.STATUSUI_SKIN, "inventory");
+        Array<String> list = ProfileManager.getInstance().getProfileList();
+        _listItems.setItems(list);
+        ScrollPane scrollPane = new ScrollPane(_listItems);
 
-		Table table = new Table();
-		Table bottomTable = new Table();
+        scrollPane.setOverscroll(false, false);
+        scrollPane.setFadeScrollBars(false);
+        scrollPane.setScrollingDisabled(true, false);
+        scrollPane.setScrollbarsOnTop(true);
 
-		//Layout
-		table.center();
-		table.setFillParent(true);
-		table.padBottom(loadButton.getHeight());
-		table.add(scrollPane).center();
+        Table table = new Table();
+        Table bottomTable = new Table();
 
-		bottomTable.setHeight(loadButton.getHeight());
-		bottomTable.setWidth(Gdx.graphics.getWidth());
-		bottomTable.center();
-		bottomTable.add(loadButton).padRight(50);
-		bottomTable.add(backButton);
+        //Layout
+        table.center();
+        table.setFillParent(true);
+        table.padBottom(loadButton.getHeight());
+        table.add(scrollPane).center();
 
-		_stage.addActor(table);
-		_stage.addActor(bottomTable);
+        bottomTable.setHeight(loadButton.getHeight());
+        bottomTable.setWidth(Gdx.graphics.getWidth());
+        bottomTable.center();
+        bottomTable.add(loadButton).padRight(50);
+        bottomTable.add(backButton);
 
-		//Listeners
-		backButton.addListener(new ClickListener() {
-								   @Override
-								   public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-									   return true;
-								   }
+        _stage.addActor(table);
+        _stage.addActor(bottomTable);
 
-								   @Override
-								   public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-									   _game.setScreen(_game.getScreenType(BludBourne.ScreenType.MainMenu));
-								   }
-							   }
-		);
+        //Listeners
+        backButton.addListener(new ClickListener() {
+                                   @Override
+                                   public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                       return true;
+                                   }
 
-		loadButton.addListener(new ClickListener() {
-								   @Override
-								   public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-									   return true;
-								   }
+                                   @Override
+                                   public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                       _game.setScreen(_game.getScreenType(BludBourne.ScreenType.MainMenu));
+                                   }
+                               }
+        );
 
-								   @Override
-								   public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-									   if( _listItems.getSelected() == null ) return;
-									   String fileName = _listItems.getSelected().toString();
-									   if (fileName != null && !fileName.isEmpty()) {
-										   FileHandle file = ProfileManager.getInstance().getProfileFile(fileName);
-										   if (file != null) {
-											   ProfileManager.getInstance().setCurrentProfile(fileName);
-											   LoadGameScreen.this.notify(AudioObserver.AudioCommand.MUSIC_STOP, AudioObserver.AudioTypeEvent.MUSIC_TITLE);
-											   _game.setScreen(_game.getScreenType(BludBourne.ScreenType.MainGame));
-										   }
-									   }
-								   }
+        loadButton.addListener(new ClickListener() {
+                                   @Override
+                                   public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                       return true;
+                                   }
 
-							   }
-		);
-	}
-	
-	@Override
-	public void render(float delta) {
-		if( delta == 0){
-			return;
-		}
-		
-		Gdx.gl.glClearColor(0, 0, 0, 1);
+                                   @Override
+                                   public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                       if (_listItems.getSelected() == null) return;
+                                       String fileName = _listItems.getSelected().toString();
+                                       if (fileName != null && !fileName.isEmpty()) {
+                                           FileHandle file = ProfileManager.getInstance().getProfileFile(fileName);
+                                           if (file != null) {
+                                               ProfileManager.getInstance().setCurrentProfile(fileName);
+                                               LoadGameScreen.this.notify(AudioObserver.AudioCommand.MUSIC_STOP, AudioObserver.AudioTypeEvent.MUSIC_TITLE);
+                                               _game.setScreen(_game.getScreenType(BludBourne.ScreenType.MainGame));
+                                           }
+                                       }
+                                   }
+
+                               }
+        );
+    }
+
+    @Override
+    public void render(float delta) {
+        if (delta == 0) {
+            return;
+        }
+
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		_stage.act(delta);
-		_stage.draw();
-	}
+        _stage.act(delta);
+        _stage.draw();
+    }
 
-	@Override
-	public void resize(int width, int height) {
-		_stage.getViewport().setScreenSize(width, height);
-	}
+    @Override
+    public void resize(int width, int height) {
+        _stage.getViewport().setScreenSize(width, height);
+    }
 
-	@Override
-	public void show() {
-		Array<String> list = ProfileManager.getInstance().getProfileList();
-		_listItems.setItems(list);
-		Gdx.input.setInputProcessor(_stage);
-	}
+    @Override
+    public void show() {
+        Array<String> list = ProfileManager.getInstance().getProfileList();
+        _listItems.setItems(list);
+        Gdx.input.setInputProcessor(_stage);
+    }
 
-	@Override
-	public void hide() {
-		Gdx.input.setInputProcessor(null);
-	}
+    @Override
+    public void hide() {
+        Gdx.input.setInputProcessor(null);
+    }
 
-	@Override
-	public void pause() {
-	}
+    @Override
+    public void pause() {
+    }
 
-	@Override
-	public void resume() {
-	}
+    @Override
+    public void resume() {
+    }
 
-	@Override
-	public void dispose() {
-		_stage.clear();
-		_stage.dispose();
-	}
+    @Override
+    public void dispose() {
+        _stage.clear();
+        _stage.dispose();
+    }
 
 }

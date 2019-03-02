@@ -6,24 +6,24 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class InventoryItem extends Image {
 
-    public enum ItemAttribute{
+    public enum ItemAttribute {
         CONSUMABLE(1),
         EQUIPPABLE(2),
         STACKABLE(4);
 
         private int _attribute;
 
-        ItemAttribute(int attribute){
+        ItemAttribute(int attribute) {
             this._attribute = attribute;
         }
 
-        public int getValue(){
+        public int getValue() {
             return _attribute;
         }
 
     }
 
-    public enum ItemUseType{
+    public enum ItemUseType {
         ITEM_RESTORE_HEALTH(1),
         ITEM_RESTORE_MP(2),
         ITEM_DAMAGE(4),
@@ -39,27 +39,26 @@ public class InventoryItem extends Image {
 
         private int _itemUseType;
 
-        ItemUseType(int itemUseType){
+        ItemUseType(int itemUseType) {
             this._itemUseType = itemUseType;
         }
 
-        public int getValue(){
+        public int getValue() {
             return _itemUseType;
         }
     }
 
     public enum ItemTypeID {
-        ARMOR01,ARMOR02,ARMOR03,ARMOR04,ARMOR05,
-        BOOTS01,BOOTS02,BOOTS03,BOOTS04,BOOTS05,
-        HELMET01,HELMET02,HELMET03,HELMET04,HELMET05,
-        SHIELD01,SHIELD02,SHIELD03,SHIELD04,SHIELD05,
-        WANDS01,WANDS02,WANDS03,WANDS04,WANDS05,
-        WEAPON01,WEAPON02,WEAPON03,WEAPON04,WEAPON05,
-        POTIONS01,POTIONS02,POTIONS03,
-        SCROLL01,SCROLL02,SCROLL03,
-        HERB001,BABY001,HORNS001,FUR001,
-        NONE
-        ;
+        ARMOR01, ARMOR02, ARMOR03, ARMOR04, ARMOR05,
+        BOOTS01, BOOTS02, BOOTS03, BOOTS04, BOOTS05,
+        HELMET01, HELMET02, HELMET03, HELMET04, HELMET05,
+        SHIELD01, SHIELD02, SHIELD03, SHIELD04, SHIELD05,
+        WANDS01, WANDS02, WANDS03, WANDS04, WANDS05,
+        WEAPON01, WEAPON02, WEAPON03, WEAPON04, WEAPON05,
+        POTIONS01, POTIONS02, POTIONS03,
+        SCROLL01, SCROLL02, SCROLL03,
+        HERB001, BABY001, HORNS001, FUR001,
+        NONE;
     }
 
     private int itemAttributes;
@@ -69,7 +68,7 @@ public class InventoryItem extends Image {
     private String itemShortDescription;
     private int itemValue;
 
-    public InventoryItem(TextureRegion textureRegion, int itemAttributes, ItemTypeID itemTypeID, int itemUseType, int itemUseTypeValue, int itemValue){
+    public InventoryItem(TextureRegion textureRegion, int itemAttributes, ItemTypeID itemTypeID, int itemUseType, int itemUseTypeValue, int itemValue) {
         super(textureRegion);
 
         this.itemTypeID = itemTypeID;
@@ -79,11 +78,11 @@ public class InventoryItem extends Image {
         this.itemValue = itemValue;
     }
 
-    public InventoryItem(){
+    public InventoryItem() {
         super();
     }
 
-    public InventoryItem(InventoryItem inventoryItem){
+    public InventoryItem(InventoryItem inventoryItem) {
         super();
         this.itemTypeID = inventoryItem.getItemTypeID();
         this.itemAttributes = inventoryItem.getItemAttributes();
@@ -141,66 +140,66 @@ public class InventoryItem extends Image {
         this.itemShortDescription = itemShortDescription;
     }
 
-    public boolean isStackable(){
+    public boolean isStackable() {
         return ((itemAttributes & ItemAttribute.STACKABLE.getValue()) == ItemAttribute.STACKABLE.getValue());
     }
 
-    public boolean isConsumable(){
+    public boolean isConsumable() {
         return ((itemAttributes & ItemAttribute.CONSUMABLE.getValue()) == ItemAttribute.CONSUMABLE.getValue());
     }
 
-    public boolean isSameItemType(InventoryItem candidateInventoryItem){
+    public boolean isSameItemType(InventoryItem candidateInventoryItem) {
         return itemTypeID == candidateInventoryItem.getItemTypeID();
     }
 
-    public static boolean doesRestoreHP(int itemUseType){
+    public static boolean doesRestoreHP(int itemUseType) {
         return ((itemUseType & ItemUseType.ITEM_RESTORE_HEALTH.getValue()) == ItemUseType.ITEM_RESTORE_HEALTH.getValue());
     }
 
-    public static boolean doesRestoreMP(int itemUseType){
+    public static boolean doesRestoreMP(int itemUseType) {
         return ((itemUseType & ItemUseType.ITEM_RESTORE_MP.getValue()) == ItemUseType.ITEM_RESTORE_MP.getValue());
     }
 
-    public int getTradeValue(){
+    public int getTradeValue() {
         //For now, we will set the trade in value of items at about one third their original value
-        if( itemValue >= 0 ) {
+        if (itemValue >= 0) {
             return MathUtils.floor(itemValue * .33f) + 2;
-        }else{
+        } else {
             return 0;
         }
     }
 
-    public boolean isInventoryItemOffensiveWand(){
-        if(     (itemUseType & ItemUseType.WAND_ONEHAND.getValue() ) == ItemUseType.WAND_ONEHAND.getValue() ||
-                (itemUseType & ItemUseType.WAND_TWOHAND.getValue() ) == ItemUseType.WAND_TWOHAND.getValue()
-                ){
+    public boolean isInventoryItemOffensiveWand() {
+        if ((itemUseType & ItemUseType.WAND_ONEHAND.getValue()) == ItemUseType.WAND_ONEHAND.getValue() ||
+                (itemUseType & ItemUseType.WAND_TWOHAND.getValue()) == ItemUseType.WAND_TWOHAND.getValue()
+                ) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
 
-    public boolean isInventoryItemOffensive(){
-        if(     (itemUseType & ItemUseType.WEAPON_ONEHAND.getValue() ) == ItemUseType.WEAPON_ONEHAND.getValue() ||
-                (itemUseType & ItemUseType.WEAPON_TWOHAND.getValue() ) == ItemUseType.WEAPON_TWOHAND.getValue() ||
-                (itemUseType & ItemUseType.WAND_ONEHAND.getValue() ) == ItemUseType.WAND_ONEHAND.getValue() ||
-                (itemUseType & ItemUseType.WAND_TWOHAND.getValue() ) == ItemUseType.WAND_TWOHAND.getValue()
-                ){
+    public boolean isInventoryItemOffensive() {
+        if ((itemUseType & ItemUseType.WEAPON_ONEHAND.getValue()) == ItemUseType.WEAPON_ONEHAND.getValue() ||
+                (itemUseType & ItemUseType.WEAPON_TWOHAND.getValue()) == ItemUseType.WEAPON_TWOHAND.getValue() ||
+                (itemUseType & ItemUseType.WAND_ONEHAND.getValue()) == ItemUseType.WAND_ONEHAND.getValue() ||
+                (itemUseType & ItemUseType.WAND_TWOHAND.getValue()) == ItemUseType.WAND_TWOHAND.getValue()
+                ) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
-    public boolean isInventoryItemDefensive(){
-        if(     (itemUseType & ItemUseType.ARMOR_CHEST.getValue() ) == ItemUseType.ARMOR_CHEST.getValue() ||
-                (itemUseType & ItemUseType.ARMOR_HELMET.getValue() ) == ItemUseType.ARMOR_HELMET.getValue() ||
-                (itemUseType & ItemUseType.ARMOR_FEET.getValue() ) == ItemUseType.ARMOR_FEET.getValue() ||
-                (itemUseType & ItemUseType.ARMOR_SHIELD.getValue() ) == ItemUseType.ARMOR_SHIELD.getValue()
-                ){
+    public boolean isInventoryItemDefensive() {
+        if ((itemUseType & ItemUseType.ARMOR_CHEST.getValue()) == ItemUseType.ARMOR_CHEST.getValue() ||
+                (itemUseType & ItemUseType.ARMOR_HELMET.getValue()) == ItemUseType.ARMOR_HELMET.getValue() ||
+                (itemUseType & ItemUseType.ARMOR_FEET.getValue()) == ItemUseType.ARMOR_FEET.getValue() ||
+                (itemUseType & ItemUseType.ARMOR_SHIELD.getValue()) == ItemUseType.ARMOR_SHIELD.getValue()
+                ) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }

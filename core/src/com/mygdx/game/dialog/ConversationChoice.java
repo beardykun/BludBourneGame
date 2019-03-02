@@ -1,20 +1,20 @@
 package com.mygdx.game.dialog;
 
 
-
 public class ConversationChoice {
     private String sourceId;
     private String destinationId;
     private String choicePhrase;
     private ConversationGraphObserver.ConversationCommandEvent conversationCommandEvent;
 
-    public ConversationChoice(){}
+    public ConversationChoice() {
+    }
 
     public String getSourceId() {
         return sourceId;
     }
 
-    public void setSourceId(String sourceId){
+    public void setSourceId(String sourceId) {
         this.sourceId = sourceId;
     }
 
@@ -22,7 +22,7 @@ public class ConversationChoice {
         return destinationId;
     }
 
-    public void setDestinationId(String destinationId){
+    public void setDestinationId(String destinationId) {
         this.destinationId = destinationId;
     }
 
@@ -42,7 +42,7 @@ public class ConversationChoice {
         this.conversationCommandEvent = choiceCommand;
     }
 
-    public String toString(){
+    public String toString() {
         return choicePhrase;
     }
 }

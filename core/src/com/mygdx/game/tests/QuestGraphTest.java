@@ -16,7 +16,7 @@ public class QuestGraphTest {
     static String _input = "";
 
 
-    public static void main (String[] arg) {
+    public static void main(String[] arg) {
         _json = new Json();
 
         _questTasks = new Hashtable<String, QuestTask>();

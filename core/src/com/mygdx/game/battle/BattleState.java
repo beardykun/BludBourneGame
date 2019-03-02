@@ -24,13 +24,13 @@ public class BattleState extends BattleSubject implements InventoryObserver {
     private Timer.Task _opponentAttackCalculations;
     private Timer.Task _checkPlayerMagicUse;
 
-    public BattleState(){
+    public BattleState() {
         _playerAttackCalculations = getPlayerAttackCalculationTimer();
         _opponentAttackCalculations = getOpponentAttackCalculationTimer();
         _checkPlayerMagicUse = getPlayerMagicUseCheckTimer();
     }
 
-    public void resetDefaults(){
+    public void resetDefaults() {
         Gdx.app.debug(TAG, "Resetting defaults...");
         _currentZoneLevel = 0;
         _currentPlayerAP = 0;
@@ -41,38 +41,38 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         _checkPlayerMagicUse.cancel();
     }
 
-    public void setCurrentZoneLevel(int zoneLevel){
+    public void setCurrentZoneLevel(int zoneLevel) {
         _currentZoneLevel = zoneLevel;
     }
 
-    public int getCurrentZoneLevel(){
+    public int getCurrentZoneLevel() {
         return _currentZoneLevel;
     }
 
-    public boolean isOpponentReady(){
-        if( _currentZoneLevel == 0 ) return false;
-        int randomVal = MathUtils.random(1,100);
+    public boolean isOpponentReady() {
+        if (_currentZoneLevel == 0) return false;
+        int randomVal = MathUtils.random(1, 100);
 
         //Gdx.app.debug(TAG, "CHANGE OF ATTACK: " + _chanceOfAttack + " randomval: " + randomVal);
 
-        if( _chanceOfAttack > randomVal  ){
+        if (_chanceOfAttack > randomVal) {
             setCurrentOpponent();
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
-    public void setCurrentOpponent(){
+    public void setCurrentOpponent() {
         Gdx.app.debug(TAG, "Entered BATTLE ZONE: " + _currentZoneLevel);
         Entity entity = MonsterFactory.getInstance().getRandomMonster(_currentZoneLevel);
-        if( entity == null ) return;
+        if (entity == null) return;
         this._currentOpponent = entity;
         notify(entity, BattleObserver.BattleEvent.OPPONENT_ADDED);
     }
 
-    public void playerAttacks(){
-        if( _currentOpponent == null ){
+    public void playerAttacks() {
+        if (_currentOpponent == null) {
             return;
         }
 
@@ -80,32 +80,32 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         int mpVal = ProfileManager.getInstance().getProperty("currentPlayerMP", Integer.class);
         notify(_currentOpponent, BattleObserver.BattleEvent.PLAYER_TURN_START);
 
-        if( _currentPlayerWandAPPoints == 0 ){
-            if( !_playerAttackCalculations.isScheduled() ){
+        if (_currentPlayerWandAPPoints == 0) {
+            if (!_playerAttackCalculations.isScheduled()) {
                 Timer.schedule(_playerAttackCalculations, 1);
             }
-        }else if(_currentPlayerWandAPPoints > mpVal ){
+        } else if (_currentPlayerWandAPPoints > mpVal) {
             BattleState.this.notify(_currentOpponent, BattleObserver.BattleEvent.PLAYER_TURN_DONE);
             return;
-        }else{
-            if( !_checkPlayerMagicUse.isScheduled() && !_playerAttackCalculations.isScheduled() ){
+        } else {
+            if (!_checkPlayerMagicUse.isScheduled() && !_playerAttackCalculations.isScheduled()) {
                 Timer.schedule(_checkPlayerMagicUse, .5f);
                 Timer.schedule(_playerAttackCalculations, 1);
             }
         }
     }
 
-    public void opponentAttacks(){
-        if( _currentOpponent == null ){
+    public void opponentAttacks() {
+        if (_currentOpponent == null) {
             return;
         }
 
-        if( !_opponentAttackCalculations.isScheduled() ){
+        if (!_opponentAttackCalculations.isScheduled()) {
             Timer.schedule(_opponentAttackCalculations, 1);
         }
     }
 
-    private Timer.Task getPlayerMagicUseCheckTimer(){
+    private Timer.Task getPlayerMagicUseCheckTimer() {
         return new Timer.Task() {
             @Override
             public void run() {
@@ -134,7 +134,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
                 Gdx.app.debug(TAG, "Player attacks " + _currentOpponent.getEntityConfig().getEntityID() + " leaving it with HP: " + currentOpponentHP);
 
                 _currentOpponent.getEntityConfig().setPropertyValue(EntityConfig.EntityProperties.ENTITY_HIT_DAMAGE_TOTAL.toString(), String.valueOf(damage));
-                if( damage > 0 ){
+                if (damage > 0) {
                     BattleState.this.notify(_currentOpponent, BattleObserver.BattleEvent.OPPONENT_HIT_DAMAGE);
                 }
 
@@ -161,10 +161,10 @@ public class BattleState extends BattleSubject implements InventoryObserver {
                 int currentOpponentAP = Integer.parseInt(_currentOpponent.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.ENTITY_ATTACK_POINTS.toString()));
                 int damage = MathUtils.clamp(currentOpponentAP - _currentPlayerDP, 0, currentOpponentAP);
                 int hpVal = ProfileManager.getInstance().getProperty("currentPlayerHP", Integer.class);
-                hpVal = MathUtils.clamp( hpVal - damage, 0, hpVal);
+                hpVal = MathUtils.clamp(hpVal - damage, 0, hpVal);
                 ProfileManager.getInstance().setProperty("currentPlayerHP", hpVal);
 
-                if( damage > 0 ) {
+                if (damage > 0) {
                     BattleState.this.notify(_currentOpponent, BattleObserver.BattleEvent.PLAYER_HIT_DAMAGE);
                 }
 
@@ -175,20 +175,20 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         };
     }
 
-    public void playerRuns(){
-        int randomVal = MathUtils.random(1,100);
-        if( _chanceOfEscape > randomVal  ) {
+    public void playerRuns() {
+        int randomVal = MathUtils.random(1, 100);
+        if (_chanceOfEscape > randomVal) {
             notify(_currentOpponent, BattleObserver.BattleEvent.PLAYER_RUNNING);
-        }else if (randomVal > _criticalChance){
+        } else if (randomVal > _criticalChance) {
             opponentAttacks();
-        }else{
+        } else {
             return;
         }
     }
 
     @Override
     public void onNotify(String value, InventoryEvent event) {
-        switch(event) {
+        switch (event) {
             case UPDATED_AP:
                 int apVal = Integer.valueOf(value);
                 _currentPlayerAP = apVal;

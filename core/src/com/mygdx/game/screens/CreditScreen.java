@@ -22,7 +22,7 @@ public class CreditScreen extends GameScreen {
     private ScrollPane _scrollPane;
     private BludBourne _game;
 
-    public CreditScreen(BludBourne game){
+    public CreditScreen(BludBourne game) {
         _game = game;
         _stage = new Stage();
         Gdx.input.setInputProcessor(_stage);
@@ -48,7 +48,7 @@ public class CreditScreen extends GameScreen {
                                         _scrollPane.updateVisualScroll();
                                         _game.setScreen(_game.getScreenType(BludBourne.ScreenType.MainMenu));
                                     }
-                               }
+                                }
         );
 
         Table table = new Table();
@@ -62,7 +62,7 @@ public class CreditScreen extends GameScreen {
 
     @Override
     public void render(float delta) {
-        if( delta == 0){
+        if (delta == 0) {
             return;
         }
 
@@ -72,7 +72,7 @@ public class CreditScreen extends GameScreen {
         _stage.act(delta);
         _stage.draw();
 
-        _scrollPane.setScrollY(_scrollPane.getScrollY()+delta*20);
+        _scrollPane.setScrollY(_scrollPane.getScrollY() + delta * 20);
     }
 
     @Override

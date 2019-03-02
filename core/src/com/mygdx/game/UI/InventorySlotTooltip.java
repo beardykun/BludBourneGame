@@ -11,7 +11,7 @@ public class InventorySlotTooltip extends Window {
     private Skin _skin;
     private Label _description;
 
-    public InventorySlotTooltip(final Skin skin){
+    public InventorySlotTooltip(final Skin skin) {
         super("", skin);
         this._skin = skin;
 
@@ -26,7 +26,7 @@ public class InventorySlotTooltip extends Window {
     public void setVisible(InventorySlot inventorySlot, boolean visible) {
         super.setVisible(visible);
 
-        if( inventorySlot == null ){
+        if (inventorySlot == null) {
             return;
         }
 
@@ -35,15 +35,15 @@ public class InventorySlotTooltip extends Window {
         }
     }
 
-    public void updateDescription(InventorySlot inventorySlot){
-        if( inventorySlot.hasItem() ){
+    public void updateDescription(InventorySlot inventorySlot) {
+        if (inventorySlot.hasItem()) {
             StringBuilder string = new StringBuilder();
             InventoryItem item = inventorySlot.getTopInventoryItem();
             string.append(item.getItemShortDescription());
-            if( item.isInventoryItemOffensive() ){
+            if (item.isInventoryItemOffensive()) {
                 string.append(System.getProperty("line.separator"));
                 string.append(String.format("Attack Points: %s", item.getItemUseTypeValue()));
-            }else if( item.isInventoryItemDefensive() ){
+            } else if (item.isInventoryItemDefensive()) {
                 string.append(System.getProperty("line.separator"));
                 string.append(String.format("Defense Points: %s", item.getItemUseTypeValue()));
             }
@@ -54,7 +54,7 @@ public class InventorySlotTooltip extends Window {
 
             _description.setText(string);
             this.pack();
-        }else{
+        } else {
             _description.setText("");
             this.pack();
         }

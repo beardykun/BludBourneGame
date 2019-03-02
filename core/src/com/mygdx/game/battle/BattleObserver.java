@@ -4,7 +4,7 @@ package com.mygdx.game.battle;
 import com.mygdx.game.Entity;
 
 public interface BattleObserver {
-    public static enum BattleEvent{
+    enum BattleEvent {
         OPPONENT_ADDED,
         OPPONENT_HIT_DAMAGE,
         OPPONENT_DEFEATED,

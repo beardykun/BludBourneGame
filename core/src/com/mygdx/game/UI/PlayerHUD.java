@@ -36,7 +36,6 @@ import com.mygdx.game.sfx.ScreenTransitionAction;
 import com.mygdx.game.sfx.ScreenTransitionActor;
 import com.mygdx.game.sfx.ShakeCamera;
 
-
 public class PlayerHUD implements Screen, AudioSubject, ProfileObserver, ComponentObserver,
         ConversationGraphObserver, StoreInventoryObserver, BattleObserver, InventoryObserver, StatusObserver {
     private static final String TAG = PlayerHUD.class.getSimpleName();

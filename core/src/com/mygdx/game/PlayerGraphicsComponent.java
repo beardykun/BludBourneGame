@@ -8,15 +8,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 
-
 public class PlayerGraphicsComponent extends GraphicsComponent {
 
     private static final String TAG = PlayerGraphicsComponent.class.getSimpleName();
 
     protected Vector2 _previousPosition;
 
-    public PlayerGraphicsComponent(){
-        _previousPosition = new Vector2(0,0);
+    public PlayerGraphicsComponent() {
+        _previousPosition = new Vector2(0, 0);
     }
 
     @Override
@@ -24,10 +23,10 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
         //Gdx.app.debug(TAG, "Got message " + message);
         String[] string = message.split(MESSAGE_TOKEN);
 
-        if( string.length == 0 ) return;
+        if (string.length == 0) return;
 
         //Specifically for messages with 1 object payload
-        if( string.length == 2 ) {
+        if (string.length == 2) {
             if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_POSITION.toString())) {
                 _currentPosition = _json.fromJson(Vector2.class, string[1]);
             } else if (string[0].equalsIgnoreCase(MESSAGE.INIT_START_POSITION.toString())) {
@@ -40,16 +39,16 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
                 EntityConfig entityConfig = _json.fromJson(EntityConfig.class, string[1]);
                 Array<EntityConfig.AnimationConfig> animationConfigs = entityConfig.getAnimationConfig();
 
-                for( EntityConfig.AnimationConfig animationConfig : animationConfigs ){
+                for (EntityConfig.AnimationConfig animationConfig : animationConfigs) {
                     Array<String> textureNames = animationConfig.getTexturePaths();
                     Array<GridPoint2> points = animationConfig.getGridPoints();
                     Entity.AnimationType animationType = animationConfig.getAnimationType();
                     float frameDuration = animationConfig.getFrameDuration();
                     Animation animation = null;
 
-                    if( textureNames.size == 1) {
+                    if (textureNames.size == 1) {
                         animation = loadAnimation(textureNames.get(0), points, frameDuration);
-                    }else if( textureNames.size == 2){
+                    } else if (textureNames.size == 2) {
                         animation = loadAnimation(textureNames.get(0), textureNames.get(1), points, frameDuration);
                     }
 
@@ -60,12 +59,12 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
     }
 
     @Override
-    public void update(Entity entity, MapManager mapMgr, Batch batch, float delta){
+    public void update(Entity entity, MapManager mapMgr, Batch batch, float delta) {
         updateAnimations(delta);
 
         //Player has moved
-        if( _previousPosition.x != _currentPosition.x ||
-                _previousPosition.y != _currentPosition.y){
+        if (_previousPosition.x != _currentPosition.x ||
+                _previousPosition.y != _currentPosition.y) {
             notify("", ComponentObserver.ComponentEvent.PLAYER_HAS_MOVED);
             _previousPosition = _currentPosition.cpy();
         }
@@ -90,7 +89,7 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
     }
 
     @Override
-    public void dispose(){
+    public void dispose() {
     }
 
 }
